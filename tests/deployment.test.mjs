@@ -77,7 +77,7 @@ test('public build retains all game assets and rewrites metadata including repos
   const config=await readFile(join(dir,'deployment-config.mjs'),'utf8');assert.ok(config.includes(endpoint));assert.ok(!config.includes('service_role'));
   assert.ok((await readFile(join(dir,'assets/share-preview.jpg'))).length>0);
   assert.ok((await readFile(join(dir,'vendor/atelier-manse.mjs'))).length>0);
-  const schema=await readFile(new URL('../supabase/migrations/20261015090000_imking_worlds.sql',import.meta.url),'utf8');assert.match(schema,/enable row level security/);assert.match(schema,/from public, anon, authenticated/);
+  const schema=await readFile(new URL('../supabase/migrations/20261015094857_imking_worlds.sql',import.meta.url),'utf8');assert.match(schema,/enable row level security/);assert.match(schema,/from public, anon, authenticated/);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 
