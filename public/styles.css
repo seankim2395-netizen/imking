@@ -86,3 +86,5 @@
 .map-stage .map-node-labels .name-value{font:14px/20px var(--serif)}
 .map-stage .map-node-labels>small{display:block;max-width:100%;margin:0;padding:1px 5px;font:10px/16px var(--sans);white-space:normal}
 .map-stage .map-node.is-me .map-node-labels>.full-name{outline:1px solid #b98b50;outline-offset:2px}
+
+.map-page-head{flex-wrap:wrap}.map-head-actions{display:flex;flex-wrap:wrap;gap:8px}.map-head-actions .button{white-space:nowrap}

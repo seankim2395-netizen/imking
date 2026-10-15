@@ -23,7 +23,7 @@ export function createNetworkSync({fetcher,onWorld=()=>{},onStatus=()=>{},storag
   async load(){return serialized(async()=>{const data=await request('GET');if(!data.shared)state=null;accept(data);if(data.shared&&data.world){await drain();onStatus('saved');}return state||data;});},
   register(payload){return serialized(async()=>{onStatus('saving');try{const data=await request('POST',{...payload,type:'register'});accept(data);onStatus('saved');return data;}catch(e){onStatus('error',e.message);throw e;}});},
   command(command){return serialized(async()=>{onStatus('saving');const cmd={...command,opId:crypto.randomUUID()};writeQueue([...readQueue(),{actorId:scope(),command:cmd}]);try{await drain();onStatus('saved');return state;}catch(e){onStatus('error',e.message);throw e;}});},
-  async refresh(){if(busy)return state;return serialized(async()=>{try{await drain();const data=await request('GET');if(data.world&&(!state||data.revision>=state.revision))accept(data);onStatus('saved');return state;}catch(e){onStatus('error',e.message);throw e;}});},
+  async refresh({force=false}={}){if(busy&&!force)return state;return serialized(async()=>{try{await drain();const data=await request('GET');if(data.world&&(!state||data.revision>=state.revision))accept(data);onStatus('saved');return state;}catch(e){onStatus('error',e.message);throw e;}});},
   async flush(){await chain;return this.refresh();},
  };
 }
