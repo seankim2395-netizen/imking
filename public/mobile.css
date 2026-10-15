@@ -1,0 +1,136 @@
+/* Readable text and a persistent, high-contrast navigation bar on phones. */
+@media (max-width: 760px) {
+  :root { --muted: #695d4b; }
+  html { scroll-padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
+  body { font-size: 16px; line-height: 1.8; }
+  .wrap { padding-right: 18px; padding-left: 18px; }
+  .small { font-size: 16px; }
+  .tiny { font-size: 14px; }
+  .eyebrow, .page-head .eyebrow { font-size: 12px; letter-spacing: 1.5px; }
+  #app main p, #modal-root .dialog p { font-size: 16px; line-height: 1.85; }
+  #app main small, #modal-root .dialog small { font-size: 14px; line-height: 1.75; }
+  #app main button, #modal-root .dialog button { font-size: 16px; }
+  #app main .button, #modal-root .dialog .button {
+    min-height: 50px; padding: 12px 16px; line-height: 1.6;
+  }
+  .text-btn, .arrow-link, .recovery-nav, .tutorial-nav { font-size: 15px; }
+  .header-right { gap: 8px; }
+  .header-right>.recovery-nav { display: none; }
+  .header-right .recovery-nav { min-height: 44px; }
+  .header-right .tutorial-nav { font-size: 14px; }
+  .brand small { font-size: 10px; letter-spacing: 1px; }
+  .brand { gap: 9px; }
+  .cloud-status, .cloud-status button, .cloud-status small { font-size: 14px; }
+  .cloud-status { gap: 10px; padding: 12px 0; line-height: 1.7; }
+  .cloud-status button { min-height: 36px; }
+  .landing-copy h1 { font-size: 44px; }
+  .landing-copy .eyebrow { font-size: 12px; }
+  .landing-actions { flex-wrap: wrap; }
+  .landing-actions .button { flex: 1 1 180px; }
+  .page-head { align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+  .page-head h1 { font-size: 32px; }
+  .page-head p { max-width: 40em; }
+  .section-label { align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+  .section-label h2, .loyal-panel .section-label h2 { font-size: 22px; }
+  .section-label .number, .loyal-panel .section-label .tiny { font-size: 14px; }
+  .pill, .rank-text, .subject-bottom { font-size: 14px; }
+  .subject-name { font-size: 20px; }
+  .subject-office { font-size: 15px; max-width: none; line-height: 1.7; }
+  .subject-card { padding: 18px; }
+  .subject-top { gap: 16px; }
+  .subject-bottom { gap: 10px; line-height: 1.7; }
+  .subject-card .pos { font-size: 13px; width: 25px; height: 25px; }
+  .roster { grid-template-columns: 1fr; gap: 16px; }
+  .loyal-grid { gap: 14px; }
+  .loyal-seat b { font-size: 20px; }
+  .loyal-seat span:not(.avatar):not(.loyal-empty) { font-size: 14px; }
+  .loyal-seat { min-width: 0; }
+  .household-member { flex-wrap: wrap; gap: 15px; }
+  .detail-stat, .rank-option, .rank-option b, .rank-table, .office-option,
+  .compat-score, .house-portrait .compat-score, .compatibility-button,
+  .compatibility-reasons article>div>span, .compatibility-reasons .compat-evidence,
+  .map-caption, .map-legend, .map-hint, .treasury-note,
+  .life-panel-heading>.arrow-link, .relationship-panel .eyebrow,
+  .tutorial-hint, .tutorial-location, .tutorial-replay-note,
+  .tutorial-map-guide span, .tutorial-map-guide small,
+  .tutorial-portrait span, .tutorial-portrait small,
+  .tutorial-treasury>div, .tutorial-treasury span, .tutorial-route>span,
+  .entry-warning, .entry-save-error, .entry-saving { font-size: 15px; line-height: 1.8; }
+  .detail-stat { gap: 16px; }
+  .demo-bar, .demo-bar select, .demo-bar .text-btn { font-size: 14px; }
+  .demo-bar select { min-height: 44px; max-width: 100%; }
+  .demo-bar .demo-left { flex-wrap: wrap; }
+  .life-grid { grid-template-columns: 1fr; gap: 18px; }
+  .life-grid h3, .life-panel-heading h2 { font-size: 23px; }
+  .life-panel-heading { flex-wrap: wrap; gap: 12px; }
+  .life-tabs { flex-wrap: wrap; gap: 6px; }
+  .life-tabs>button { flex: 1 1 auto; min-height: 46px; }
+  .dialog { padding: 26px 22px; max-height: calc(100dvh - 32px); }
+  .overlay { padding: 16px; }
+  .dialog h2 { font-size: 28px; line-height: 1.6; }
+  .dialog .lead, .field small, .note-box { color: #65573f; }
+  .field>span, .field-error, .check-field { font-size: 16px; line-height: 1.7; }
+  .field { min-width: 0; margin: 18px 0; }
+  .field input:not([type="checkbox"]), .field select, .select-input {
+    min-height: 52px; min-width: 0; font-size: 17px; padding: 12px;
+  }
+  .check-field { min-height: 44px; gap: 10px; }
+  .check-field input[type="checkbox"] { width: 20px; height: 20px; min-height: 20px; flex-basis: 20px; }
+  .birth-time-field .birth-time-selects { max-width: none; }
+  .birth-time-selects select { padding: 12px 6px; font-size: 16px; }
+  .gender-choice img { width: 100px; height: 100px; }
+  .gender-choice b { font-size: 20px; }
+  .dialog .actions { flex-wrap: wrap; }
+  .dialog .actions .button { flex: 1 1 140px; }
+  .note-box, .storage-warning, .return-guide, .landing-notice { font-size: 15px; line-height: 1.85; }
+  .saju-sections details>div { font-size: 17px; padding: 0 16px 20px; }
+  .saju-sections summary { font-size: 18px; padding: 18px 16px; }
+  .saju-sections h3 { font-size: 20px; }
+  .saju-sections table { font-size: 15px; }
+  .saju-pillars { gap: 7px; }
+  .tutorial-copy { color: #61533e; }
+  .tutorial-heading h2 { font-size: 27px; }
+  .tutorial-kicker>.eyebrow { font-size: 12px; }
+  .tutorial-actions { flex-wrap: wrap; gap: 12px; }
+  .map-legend { gap: 10px 18px; flex-wrap: wrap; }
+  .map-tools { gap: 4px; }
+  #app main .map-tools button { min-width: 44px; min-height: 44px; font-size: 24px; }
+  #app main .map-tools .map-tool-text { font-size: 14px; padding: 0 10px; }
+  .map-tools output { font-size: 14px; }
+  .map-stage .map-node-labels { gap: 6px; }
+  .map-stage .map-node-labels>.full-name,
+  .map-stage .map-node-labels .name-value { font: 700 17px/24px var(--serif); }
+  .map-stage .map-node-labels .name-prefix { font: 500 13px/19px var(--sans); }
+  .map-stage .map-node-labels>.compat-score { font: 13px/19px var(--sans); }
+  .map-stage .map-node-labels>.compat-score b { font-size: 15px; line-height: 19px; }
+  .map-stage .map-node-labels>small { font: 13px/19px var(--sans); }
+  .map-caption { gap: 12px; flex-wrap: wrap; }
+  .footer { font-size: 14px; line-height: 1.8; padding-bottom: calc(145px + env(safe-area-inset-bottom)); }
+  #toast { bottom: calc(112px + env(safe-area-inset-bottom)); font-size: 15px; line-height: 1.7; }
+  .mobile-nav {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px; padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+    background: #24483e; border-top: 3px solid #c7a25b;
+    box-shadow: 0 -5px 24px #172f3c38; backdrop-filter: none;
+  }
+  .mobile-nav button {
+    position: relative; min-width: 0; min-height: 70px; padding: 9px 3px;
+    gap: 6px; border: 1px solid transparent; border-radius: 10px;
+    color: #fff6e3; font-size: 16px; font-weight: 700; line-height: 1.4;
+  }
+  .mobile-nav svg { width: 27px; height: 27px; stroke-width: 1.8; }
+  .mobile-nav button.active {
+    background: #fff0cf; color: #842d25; border-color: #e5bf72;
+    box-shadow: inset 0 0 0 1px #fff8e6, 0 2px 5px #102f2a38;
+  }
+  .mobile-nav button:focus-visible { outline: 3px solid #f8d88d; outline-offset: -3px; }
+}
+@media (max-width: 480px) {
+  .birth-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .loyal-grid { grid-template-columns: 1fr; }
+  .header-right .tutorial-nav { gap: 4px; font-size: 13px; }
+  .header-right .tutorial-nav svg { width: 17px; }
+  .recovery-nav { font-size: 14px; }
+  .brand b { font-size: 24px; }
+  .site-header { gap: 8px; }
+}
