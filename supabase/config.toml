@@ -1,0 +1,6 @@
+project_id = "imking"
+
+[functions.royal-api]
+# NG1 is the game's own random possession token, not a Supabase Auth JWT.
+# The function verifies NG1 and selects only its SHA-256 owner hash.
+verify_jwt = false

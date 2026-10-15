@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env*
+.supabase/
+supabase/.temp/
+supabase/.branches/
+*.pem
+*.zip

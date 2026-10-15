@@ -1,0 +1,7 @@
+{
+  "app": "내가왕",
+  "baseVersion": 20,
+  "sourceCommit": "83d71eb7fabd89781a8ae36379e4bb920c3904b9",
+  "exportedAt": "2026-10-15T10:03:52.209Z",
+  "scope": "shared invitation network; server-authorized commands; 10-second polling"
+}
