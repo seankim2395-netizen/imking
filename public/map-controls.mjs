@@ -21,7 +21,7 @@ export function mountMap(viewport,stage,bounds,focus){
  const rebase=()=>{const p=sample();baseline=p.length?{count:p.length,center:midpoint(p),distance:distance(p),view:{...view}}:null;};
  const fit=()=>{view=fitTransform(bounds,size());draw();rebase();};
  const zoom=(factor,anchor)=>{const s=size(),p=anchor||{x:s.width/2,y:s.height/2};view=zoomAt(view,factor,p.x,p.y);interacted=true;draw();rebase();};
- const center=()=>{const s=size(),p=focus||{x:bounds.width/2,y:bounds.height/2};view={scale:.9,x:s.width/2-p.x*.9,y:s.height/2-p.y*.9};interacted=true;draw();rebase();};
+ const center=()=>{const s=size(),p=focus||{x:bounds.width/2,y:bounds.height/2};const scale=s.width<=760?1:.9;view={scale,x:s.width/2-p.x*scale,y:s.height/2-p.y*scale};interacted=true;draw();rebase();};
  const begin=input=>{if(!points.size){source=input;dragged=false;suppress=0;}};
  const move=e=>{
   if(!baseline)return;const p=sample(),c=midpoint(p);if(!c)return;
@@ -98,6 +98,6 @@ export function mountMap(viewport,stage,bounds,focus){
    if(interacted){view.x+=(next.width-lastSize.width)/2;view.y+=(next.height-lastSize.height)/2;draw();rebase();}else fit();lastSize=next;
   });observer.observe(viewport);
  }
- fit();
+ if(size().width<=760&&focus)center();else fit();
  return {fit,zoom,center,setView(next){if(next&&Number.isFinite(next.x)&&Number.isFinite(next.y)&&Number.isFinite(next.scale)&&next.scale>0){view={...next};interacted=true;draw();rebase();}},get view(){return {...view};},destroy(){controller.abort();observer?.disconnect();reset();}};
 }

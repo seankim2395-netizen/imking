@@ -5,7 +5,7 @@ import {analyzeBirth,compatibility,compatibilityReport,sajuReading,validChart} f
 import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs';
 import {validateWorld,makeBackup,makeRecoveryLink,readRecovery} from './recovery.mjs';
 import {radialLayout,MAP_NODE_METRICS} from './map-layout.mjs';
-import {mountMap} from './map-controls.mjs';
+import {mountMap} from './map-controls.mjs?v=20261015-readable-mobile-v2';
 import {createSync} from './sync.mjs';
 import {createNetworkSync} from './network-sync.mjs?v=20261015-map-refresh';
 import {createBrowserSession,SESSION_KEY} from './browser-session.mjs';

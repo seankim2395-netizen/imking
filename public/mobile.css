@@ -2,7 +2,7 @@
 @media (max-width: 760px) {
   :root { --muted: #695d4b; }
   html { scroll-padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
-  body { font-size: 16px; line-height: 1.8; }
+  body { font-size: 16px; line-height: 1.8; padding-bottom: 0; }
   .wrap { padding-right: 18px; padding-left: 18px; }
   .small { font-size: 16px; }
   .tiny { font-size: 14px; }
@@ -123,6 +123,8 @@
     background: #fff0cf; color: #842d25; border-color: #e5bf72;
     box-shadow: inset 0 0 0 1px #fff8e6, 0 2px 5px #102f2a38;
   }
+  .mobile-nav button:active { background: #325b4e; }
+  .mobile-nav button.active:active { background: #f4dfb0; }
   .mobile-nav button:focus-visible { outline: 3px solid #f8d88d; outline-offset: -3px; }
 }
 @media (max-width: 480px) {
