@@ -74,3 +74,15 @@ test('prohibited registration names are rejected before membership writes and ed
  for(const name of ['자지','씨발']){const out=await command(s,a,'birth',{name,gender:'M',birth:{...birth,date:'1991-05-10'}});assert.equal(out.status,400);const latest=await api(s,a);assert.equal(latest.revision,before.revision);assert.equal(latest.world.people[a.id].name,'민범');assert.deepEqual(latest.world.people[a.id].birth,before.world.people[a.id].birth);}
  const retry=await api(s,a,{type:'register',name:'자지',gender:'M',birth});assert.equal(retry.status,400);assert.equal((await api(s,a)).revision,joined.revision);
 });
+
+test('only a king can post a custom survey; all actors see the same question and bounded vote results',async()=>{
+ const {s,a,b,c}=await chain(),agenda={title:'다음 모임 식사는?',options:['한식','중식','일식','양식']};
+ const before=JSON.stringify([...s.rows]);assert.equal((await command(s,b,'life-council-custom-open',{agenda})).status,400);assert.equal(JSON.stringify([...s.rows]),before);
+ assert.equal((await command(s,a,'life-council-custom-open',{agenda:{title:'실패',options:['같음','같음']}})).status,400);assert.equal(JSON.stringify([...s.rows]),before);
+ const op=crypto.randomUUID(),created=await command(s,a,'life-council-custom-open',{agenda},op);assert.equal(created.status,200);const id=created.resultId;
+ const repeat=await command(s,a,'life-council-custom-open',{agenda},op);assert.equal(repeat.resultId,id);assert.equal(repeat.world.councils.length,1);
+ const subject=await api(s,b);assert.deepEqual(subject.world.councils[0].customAgenda,agenda);assert.equal((await command(s,b,'life-council-vote',{councilId:id,choice:4})).status,400);
+ assert.equal((await command(s,c,'life-council-vote',{councilId:id,choice:0})).status,400);
+ await command(s,b,'life-council-vote',{councilId:id,choice:3});await command(s,b,'life-council-vote',{councilId:id,choice:2});await command(s,a,'life-council-vote',{councilId:id,choice:2});
+ assert.equal((await command(s,b,'life-council-close',{councilId:id})).status,400);const closed=await command(s,a,'life-council-close',{councilId:id});assert.equal(closed.status,200);assert.deepEqual(closed.world.news[0].council.counts,[0,0,2,0]);validateWorld(closed.world);
+});

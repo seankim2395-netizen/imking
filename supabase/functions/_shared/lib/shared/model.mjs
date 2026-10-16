@@ -1,5 +1,5 @@
 import {validateName} from './name-policy.mjs';
-import {publishNews,recordBowMilestones,countryOf} from './royal-life.mjs';
+import {publishNews,recordBowMilestones,countryOf} from './royal-life.mjs?v=20261016-custom-surveys';
 import {analyzeBirth,royalTypeFromChart,validChart} from './saju.mjs';
 // Pure world rules; snapshots are persisted per owner account through Sites D1.
 export const TYPES = [

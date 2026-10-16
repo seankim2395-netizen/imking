@@ -109,6 +109,7 @@ export function applyNetworkCommand(world,actorId,cmd){
   case 'birth':if(typeof cmd.name!=='string'||!cmd.name.trim()||[...cmd.name].length>12||!['M','F'].includes(cmd.gender))fail('이름과 성별을 확인해주세요.');setBirth(world,actorId,cmd.birth,{name:cmd.name,gender:cmd.gender});break;
   case 'tutorial':if(!['king','subject'].includes(cmd.role))fail('안내 종류를 확인해주세요.');p.tutorialSeen[cmd.role]=true;break;
   case 'life-council-open':return openCouncil(world,actorId,cmd.agendaId).id;
+  case 'life-council-custom-open':return openCouncil(world,actorId,cmd.agenda).id;
   case 'life-council-vote':voteCouncil(world,actorId,cmd.councilId,cmd.choice);break;
   case 'life-council-close':return closeCouncil(world,actorId,cmd.councilId)?.id;
   default:fail('지원하지 않는 활동입니다.');

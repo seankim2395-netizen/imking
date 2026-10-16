@@ -136,3 +136,15 @@
   .brand b { font-size: 24px; }
   .site-header { gap: 8px; }
 }
+@media(max-width:760px){
+ #app main .home-bow .home-bow-button{font-size:23px;min-height:68px}
+ #app main .home-identity .home-role{font-size:13px;line-height:1.6}
+ #app main .home-identity-copy>p:not(.home-role){font-size:15px;line-height:1.65}
+ #app main .home-activity-row small{font-size:13px;line-height:1.65}
+ #app main .subject-office-line,#app main .subject-brief{font-size:14px;line-height:1.75}
+ #app main .home-fold>summary small{font-size:13px}
+ #app main .home-section-help{font-size:15px;line-height:1.7}
+ #app main .home-actions .button{font-size:16px;min-height:50px}
+ #app main .compact-subject .compatibility-button{font-size:14px;min-height:44px;padding:10px 16px}
+ .mobile-nav button{min-height:64px}.mobile-nav{gap:4px}
+}

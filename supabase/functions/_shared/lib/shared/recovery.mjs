@@ -1,4 +1,4 @@
-import {validateLife} from './royal-life.mjs';
+import {validateLife} from './royal-life.mjs?v=20261016-custom-surveys';
 import {analyzeBirth,validChart} from './saju.mjs';
 import {TYPES,OFFICES,RANKS,temperamentOffice,applyDestiny,FRAMES,DECOR} from './model.mjs';
 const MAX_JSON=512000,MAX_TOKEN=120000,MAX_PEOPLE=500;
