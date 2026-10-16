@@ -136,6 +136,16 @@ export const isDependent=(db,p)=>!p.isKing&&!!p.liegeId&&!db.people[p.liegeId]?.
 export function sovereign(db,id){let p=db.people[id];const seen=new Set();while(p&&!p.isKing&&!seen.has(p.id)){seen.add(p.id);p=db.people[p.liegeId];}return p?.isKing?p:null;}
 export function chooseStay(db,id){const p=db.people[id];if(!p||p.isKing||!household(db,id).length)throw Error('식솔이 있는 신하·식솔만 선택할 수 있습니다.');p.recruitChoice='stay';addEvent(db,`${p.name}, 독립 대신 식솔과 함께 남기로 하다.`);}
 export function becomeKing(db,id){const p=db.people[id];if(!p||p.isKing||!household(db,id).length)throw Error('초대한 지인이 한 명 이상 남아 있어야 독립할 수 있습니다.');const former=db.people[p.liegeId],oldKing=countryOf(db,p.id);if(former?.loyalIds?.includes(id))p.wasLoyal=true;if(former)former.loyalIds=(former.loyalIds||[]).filter(x=>x!==id);applyDestiny(p);p.isKing=true;p.liegeId=null;p.recruitChoice='stay';p.summons=null;publishNews(db,'independence',{kingId:p.id,targetId:p.id,relatedKingId:oldKing?.id});addEvent(db,`${p.name}${kingLabel(p)}, 독립하다. 함께한 식솔은 신하가 되고 옛 인연은 남다.`);return p;}
+// Release a direct subject without deleting an account or its invitation tree.
+export function expelSubject(db,actorId,subjectId){
+ const p=requireLiege(db,actorId,subjectId),king=db.people[actorId];
+ if(king.loyalIds?.includes(subjectId))p.wasLoyal=true;
+ king.loyalIds=(king.loyalIds||[]).filter(id=>id!==subjectId);
+ applyDestiny(p);p.isKing=true;p.liegeId=null;p.recruitChoice='stay';p.summons=null;
+ publishNews(db,'independence',{kingId:p.id,targetId:p.id,relatedKingId:actorId});
+ addEvent(db,`${king.name}${kingLabel(king)}, ${p.name}를 신하 목록에서 내보내다. 식솔과 옛 인연은 남다.`);
+ return p;
+}
 export const networkCount=(db,id)=>Object.values(db.people).filter(p=>p.inviterId===id).length;
 export const networkLevelCount=(db,id)=>Math.max(networkCount(db,id),db.people[id]?.peakNetwork||0);
 export function setBirth(db,id,birth,{name,gender}={}){const p=db.people[id];if(!p)throw Error('인물을 찾을 수 없습니다.');const g=gender||p.gender,r=analyzeBirth(birth,g);p.birth=r.birth;p.chart=r.chart;p.type=r.type;p.scores=r.scores;p.answers=[];p.gender=g;if(name)p.name=name;return applyDestiny(p);}

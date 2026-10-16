@@ -88,3 +88,5 @@
 .map-stage .map-node.is-me .map-node-labels>.full-name{outline:1px solid #b98b50;outline-offset:2px}
 
 .map-page-head{flex-wrap:wrap}.map-head-actions{display:flex;flex-wrap:wrap;gap:8px}.map-head-actions .button{white-space:nowrap}
+
+.subject-remove-section{margin-top:28px;padding-top:22px;border-top:1px solid #c7b59a}.subject-remove-section h3{font-size:18px;margin-bottom:8px}.subject-remove-button{margin-top:14px;border-color:#a34b3d;color:#8b3027}.subject-remove-button:hover{background:#f2dfd4}

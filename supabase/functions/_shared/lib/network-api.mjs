@@ -1,7 +1,7 @@
 // One canonical graph per connected invitation tree. All mutations are commands
 // applied to the latest graph with compare-and-swap, never client world uploads.
 import {guestOwner,guestId} from './guest-api.mjs';
-import {newWorld,addPerson,setBirth,bow,grant,appointLoyal,dismissLoyal,assignHousehold,chooseStay,becomeKing,royalShop,royalNudge,acknowledgeNudge} from './shared/model.mjs';
+import {newWorld,addPerson,setBirth,bow,grant,appointLoyal,dismissLoyal,assignHousehold,chooseStay,becomeKing,expelSubject,royalShop,royalNudge,acknowledgeNudge} from './shared/model.mjs';
 import {openCouncil,voteCouncil,closeCouncil} from './shared/royal-life.mjs';
 import {validateWorld} from './shared/recovery.mjs';
 const json=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization','X-Content-Type-Options':'nosniff'}});
@@ -98,6 +98,7 @@ export function applyNetworkCommand(world,actorId,cmd){
   case 'grant':grant(world,actorId,target,cmd.rank);break;
   case 'loyal-appoint':appointLoyal(world,actorId,target);break;
   case 'loyal-dismiss':dismissLoyal(world,actorId,target);break;
+  case 'subject-expel':if(!p.isKing||!world.people[target]||world.people[target].isKing||world.people[target].liegeId!==actorId)fail('왕은 자신의 직속 신하만 목록에서 삭제할 수 있습니다.',403);expelSubject(world,actorId,target);break;
   case 'house-role':assignHousehold(world,actorId,target,cmd.office);break;
   case 'reign-stay':chooseStay(world,actorId);break;
   case 'reign-independent':becomeKing(world,actorId);break;

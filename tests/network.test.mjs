@@ -40,3 +40,29 @@ test('outbox retries a lost response using the same operation id after reload',a
 });
 
 test('storage failures do not expose internal errors to players',async()=>{const a=await actor(),broken={async read(){throw Error('private-service-secret');}};const r=await api(broken,a);assert.equal(r.status,503);assert.ok(!JSON.stringify(r).includes('private-service-secret'));});
+
+test('king expels only a direct subject, preserves descendants and private return access, and retries once',async()=>{
+ const {s,a,b,c,d,wb}=await chain();
+ await command(s,a,'loyal-appoint',{targetId:b.id});await command(s,a,'royal-nudge',{targetId:b.id});await command(s,b,'bow',{count:12});
+ const before=await api(s,b),kingBefore=before.world.people[a.id],op=crypto.randomUUID();
+ const out=await command(s,a,'subject-expel',{targetId:b.id},op);assert.equal(out.status,200);
+ assert.equal(out.world.people[b.id].isKing,true);assert.equal(out.world.people[b.id].liegeId,null);assert.equal(out.world.people[b.id].inviterId,a.id);
+ assert.equal(out.world.people[c.id].liegeId,b.id);assert.equal(out.world.people[d.id].liegeId,c.id);assert.equal(out.world.people[b.id].summons,null);assert.ok(!out.world.people[a.id].loyalIds.includes(b.id));
+ assert.equal(out.world.people[a.id].totalBows,kingBefore.totalBows);assert.equal(out.world.people[a.id].gold,kingBefore.gold);assert.equal(out.world.people[b.id].bows,12);assert.equal(out.world.people[b.id].birth,null);validateWorld(out.world);
+ const again=await command(s,a,'subject-expel',{targetId:b.id},op);assert.equal(again.status,200);assert.equal(again.revision,out.revision);assert.equal(again.world.events.length,out.world.events.length);
+ const own=await api(s,b);assert.equal(own.world.activeId,b.id);assert.equal(own.world.people[b.id].isKing,true);assert.deepEqual(own.world.people[b.id].birth,before.world.people[b.id].birth);assert.equal(own.invite.code,wb.invite.code);validateWorld(own.world);
+ const e=await actor();const joined=await join(s,e,wb.invite.code,'새신하');assert.equal(joined.world.people[e.id].liegeId,b.id);assert.equal(joined.world.people[e.id].inviterId,b.id);
+});
+test('expulsion works without recruits and cannot target another country, a nested household, self or a king',async()=>{
+ const {s,a,b,c,d,wa}=await chain();const outsider=await actor();await join(s,outsider,null,'다른왕');const empty=await actor();await join(s,empty,wa.invite.code,'외톨이');
+ const initial=await api(s,a);
+ for(const [actor,target] of [[b,c.id],[a,c.id],[outsider,b.id],[a,a.id],[a,outsider.id],[a,'missing-person']]){
+  const result=await command(s,actor,'subject-expel',{targetId:target});assert.equal(result.status,403);assert.equal((await api(s,a)).revision,initial.revision);
+ }
+ const result=await command(s,a,'subject-expel',{targetId:empty.id});assert.equal(result.status,200);assert.equal(result.world.people[empty.id].isKing,true);validateWorld(result.world);
+ const rejected=await command(s,a,'subject-expel',{targetId:empty.id});assert.equal(rejected.status,403);assert.equal((await api(s,a)).revision,result.revision);
+});
+test('racing independence and expulsion leave one consistent country and intact invitation edges',async()=>{
+ const {s,a,b,c,d}=await chain();const results=await Promise.all([command(s,a,'subject-expel',{targetId:b.id}),command(s,b,'reign-independent')]);assert.ok(results.some(x=>x.status===200));
+ for(const actor of [a,b,c,d]){const out=await api(s,actor);assert.equal(out.world.people[b.id].isKing,true);assert.equal(out.world.people[b.id].inviterId,a.id);assert.equal(out.world.people[c.id].liegeId,b.id);assert.equal(out.world.people[d.id].liegeId,c.id);validateWorld(out.world);}
+});
