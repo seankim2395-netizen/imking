@@ -1,3 +1,4 @@
+import {validateName} from './shared/name-policy.mjs';
 // One canonical graph per connected invitation tree. All mutations are commands
 // applied to the latest graph with compare-and-swap, never client world uploads.
 import {guestOwner,guestId} from './guest-api.mjs';
@@ -36,7 +37,7 @@ function seedWorld(previous,id){
  let world;try{world=validateWorld(previous);}catch(e){fail(e.message);}const active=world.people[world.activeId];
  // Existing private backups may contain portraits copied from an old invite.
  // Keep them as historical nodes; only this browser's actual actor is owned.
- for(const p of Object.values(world.people)){p.external=p.id!==active.id;if(p.external){p.birth=null;p.scores=[];p.answers=[];}}
+ for(const p of Object.values(world.people)){validateName(p.name);p.external=p.id!==active.id;if(p.external){p.birth=null;p.scores=[];p.answers=[];}}
  return {world,personId:active.id};
 }
 async function enter(store,privateStore,owner,id,payload){
@@ -130,7 +131,7 @@ export async function handleNetwork(request,store,{privateStore}={}){
   if(!request.headers.get('content-type')?.startsWith('application/json'))return json({error:'JSON 요청이 필요합니다.'},415);
   const raw=await request.text();if(new TextEncoder().encode(raw).length>50000)return json({error:'요청이 너무 큽니다.'},413);
   let payload;try{payload=JSON.parse(raw);}catch{return json({error:'요청을 확인해주세요.'},400);}
-  if(payload?.type==='register')return json(await enter(store,privateStore,owner,id,payload));
+  if(payload?.type==='register'){if(payload.name!==undefined){try{validateName(payload.name);}catch(e){fail(e.message);}}return json(await enter(store,privateStore,owner,id,payload));}
   if(!member)return json({error:'먼저 왕실에 입장해주세요.'},409);
   if(!validCode(payload?.opId))return json({error:'활동 번호를 확인해주세요.'},400);
   let resultId=null;

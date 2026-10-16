@@ -66,3 +66,11 @@ test('racing independence and expulsion leave one consistent country and intact 
  const {s,a,b,c,d}=await chain();const results=await Promise.all([command(s,a,'subject-expel',{targetId:b.id}),command(s,b,'reign-independent')]);assert.ok(results.some(x=>x.status===200));
  for(const actor of [a,b,c,d]){const out=await api(s,actor);assert.equal(out.world.people[b.id].isKing,true);assert.equal(out.world.people[b.id].inviterId,a.id);assert.equal(out.world.people[c.id].liegeId,b.id);assert.equal(out.world.people[d.id].liegeId,c.id);validateWorld(out.world);}
 });
+
+test('prohibited registration names are rejected before membership writes and edits cannot bypass the policy',async()=>{
+ const s=store(),a=await actor();
+ for(const name of ['자지','보 지','씨1발','ㅅㅣㅂㅏㄹ','ＦＵＣＫ']){const out=await api(s,a,{type:'register',name,gender:'M',birth});assert.equal(out.status,400);assert.match(out.error,/성적인 표현|욕설/);assert.equal(s.rows.size,0);}
+ const joined=await join(s,a,null,'민범');const before=await api(s,a);
+ for(const name of ['자지','씨발']){const out=await command(s,a,'birth',{name,gender:'M',birth:{...birth,date:'1991-05-10'}});assert.equal(out.status,400);const latest=await api(s,a);assert.equal(latest.revision,before.revision);assert.equal(latest.world.people[a.id].name,'민범');assert.deepEqual(latest.world.people[a.id].birth,before.world.people[a.id].birth);}
+ const retry=await api(s,a,{type:'register',name:'자지',gender:'M',birth});assert.equal(retry.status,400);assert.equal((await api(s,a)).revision,joined.revision);
+});

@@ -1,3 +1,4 @@
+import {validateName} from './name-policy.mjs';
 import {publishNews,recordBowMilestones,countryOf} from './royal-life.mjs';
 import {analyzeBirth,royalTypeFromChart,validChart} from './saju.mjs';
 // Pure world rules; snapshots are persisted per owner account through Sites D1.
@@ -116,7 +117,7 @@ export function addEvent(db,text){db.events.unshift({text,at:Date.now()});db.eve
 export function addPerson(db,{id,name,gender,type,scores=[],answers=[],inviterId=null,external=false,birth=null}){
  if(Object.keys(db.people).length>=500)throw Error('이 초안의 천하는 인물 500명까지 보관합니다.');
  if(db.people[id])throw Error('이미 입장한 인물입니다.');
- if(typeof name!=='string'||!name.trim()||[...name.trim()].length>12)throw Error('이름은 1~12자로 적어주세요.');
+ name=validateName(name);
  if(!['M','F'].includes(gender)||!Number.isInteger(type)||!TYPES[type])throw Error('캐릭터 정보가 올바르지 않습니다.');
  const natal=birth?analyzeBirth(birth,gender):null;if(natal){type=natal.type;scores=natal.scores;answers=[];}
  const inviter=inviterId?db.people[inviterId]:null;
@@ -148,7 +149,7 @@ export function expelSubject(db,actorId,subjectId){
 }
 export const networkCount=(db,id)=>Object.values(db.people).filter(p=>p.inviterId===id).length;
 export const networkLevelCount=(db,id)=>Math.max(networkCount(db,id),db.people[id]?.peakNetwork||0);
-export function setBirth(db,id,birth,{name,gender}={}){const p=db.people[id];if(!p)throw Error('인물을 찾을 수 없습니다.');const g=gender||p.gender,r=analyzeBirth(birth,g);p.birth=r.birth;p.chart=r.chart;p.type=r.type;p.scores=r.scores;p.answers=[];p.gender=g;if(name)p.name=name;return applyDestiny(p);}
+export function setBirth(db,id,birth,{name,gender}={}){const p=db.people[id];if(!p)throw Error('인물을 찾을 수 없습니다.');const nextName=name===undefined?p.name:validateName(name),g=gender||p.gender,r=analyzeBirth(birth,g);p.birth=r.birth;p.chart=r.chart;p.type=r.type;p.scores=r.scores;p.answers=[];p.gender=g;p.name=nextName;return applyDestiny(p);}
 export const independent=(db,id)=>Object.values(db.people).filter(p=>p.isKing&&p.inviterId===id);
 export const bowRank=p=>THRESHOLDS.reduce((r,n,i)=>p.bows>=n?i:r,0);
 export const rank=p=>Math.max(bowRank(p),p.grantedRank||0);
