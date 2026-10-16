@@ -3,7 +3,7 @@ import {BIRTH_REGIONS} from './birth-locations.mjs';
 import {birthTimeFields,birthTimeValue} from './birth-time.mjs';
 import {avatarFrame} from './avatar-frame.mjs';
 import {analyzeBirth,compatibility,compatibilityReport,sajuReading,validChart} from './saju.mjs';
-import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,expelSubject,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs?v=20261016-name-policy';
+import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,expelSubject,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs?v=20261016-bow-thresholds';
 import {validateWorld,makeBackup,makeRecoveryLink,readRecovery} from './recovery.mjs';
 import {radialLayout,MAP_NODE_METRICS} from './map-layout.mjs';
 import {mountMap} from './map-controls.mjs?v=20261015-readable-mobile-v2';
