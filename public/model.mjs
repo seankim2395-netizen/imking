@@ -143,7 +143,7 @@ export function expelSubject(db,actorId,subjectId){
  king.loyalIds=(king.loyalIds||[]).filter(id=>id!==subjectId);
  applyDestiny(p);p.isKing=true;p.liegeId=null;p.recruitChoice='stay';p.summons=null;
  publishNews(db,'independence',{kingId:p.id,targetId:p.id,relatedKingId:actorId});
- addEvent(db,`${king.name}${kingLabel(king)}, ${p.name}를 신하 목록에서 내보내다. 식솔과 옛 인연은 남다.`);
+ addEvent(db,`${king.name}${kingLabel(king)}, ${p.name} 신하를 목록에서 내보내다. 식솔과 옛 인연은 남다.`);
  return p;
 }
 export const networkCount=(db,id)=>Object.values(db.people).filter(p=>p.inviterId===id).length;

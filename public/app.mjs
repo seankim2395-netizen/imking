@@ -2,7 +2,7 @@ import {BIRTH_REGIONS} from './birth-locations.mjs';
 import {birthTimeFields,birthTimeValue} from './birth-time.mjs';
 import {avatarFrame} from './avatar-frame.mjs';
 import {analyzeBirth,compatibility,compatibilityReport,sajuReading,validChart} from './saju.mjs';
-import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,expelSubject,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs?v=20261016-subject-expel';
+import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,expelSubject,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs?v=20261016-subject-expel-2';
 import {validateWorld,makeBackup,makeRecoveryLink,readRecovery} from './recovery.mjs';
 import {radialLayout,MAP_NODE_METRICS} from './map-layout.mjs';
 import {mountMap} from './map-controls.mjs?v=20261015-readable-mobile-v2';
@@ -170,7 +170,7 @@ function destinyCard(p){const t=TYPES[characterType(p)],hasSaju=validChart(p.cha
 function subjectExpelControl(p){return `<section class="subject-remove-section"><h3>신하 목록 관리</h3><p class="small muted">이 신하를 내 조정에서 내보내고 독립시킵니다.</p><button class="button light full subject-remove-button" data-a="subject-expel" data-id="${esc(p.id)}">신하 목록에서 삭제</button></section>`;}
 function subjectExpelModal(id){
  const p=db.people[id];if(!me()?.isKing||!p||p.isKing||p.liegeId!==me().id){toast('왕은 자신의 직속 신하만 목록에서 삭제할 수 있습니다.');return;}
- openModal(`<div class="eyebrow">A ROYAL DISMISSAL</div><h2>${esc(p.name)}를 신하 목록에서 삭제할까요?</h2><p class="lead">${esc(p.name)}는 독립한 군주로 바뀌며, 내 조정의 신하 목록에서 제외됩니다.</p><div class="note-box">최측근 충신 지정과 곤장 독촉은 해제됩니다.<br>본인의 사주·경배·금화와 식솔 기록은 보존됩니다.<br>천하지도의 초대 인연도 유지됩니다.</div><div class="field-error" id="subject-expel-error" role="alert"></div><div class="actions"><button class="button light" data-a="person" data-id="${esc(p.id)}">취소</button><button class="button" id="subject-expel-submit" data-a="subject-expel-confirm" data-id="${esc(p.id)}">목록에서 삭제하기</button></div>`,{replace:true});
+ openModal(`<div class="eyebrow">A ROYAL DISMISSAL</div><h2>${esc(p.name)} 신하를 목록에서 삭제할까요?</h2><p class="lead">해당 신하는 독립한 군주로 바뀌며, 내 조정의 신하 목록에서 제외됩니다.</p><div class="note-box">최측근 충신 지정과 곤장 독촉은 해제됩니다.<br>본인의 사주·경배·금화와 식솔 기록은 보존됩니다.<br>천하지도의 초대 인연도 유지됩니다.</div><div class="field-error" id="subject-expel-error" role="alert"></div><div class="actions"><button class="button light" data-a="person" data-id="${esc(p.id)}">취소</button><button class="button" id="subject-expel-submit" data-a="subject-expel-confirm" data-id="${esc(p.id)}">목록에서 삭제하기</button></div>`,{replace:true});
 }
 async function confirmSubjectExpel(id){
  if(subjectExpelBusy)return;if(serverBooting&&!demo){toast('최신 왕실을 연결하고 있습니다. 잠시만 기다려주세요.');return;}
@@ -180,7 +180,7 @@ async function confirmSubjectExpel(id){
   const p=db.people[id],actor=me();if(!actor?.isKing||!p)throw Error('왕은 자신의 직속 신하만 목록에서 삭제할 수 있습니다.');
   if(!p.isKing){if(p.liegeId!==actor.id)throw Error('왕은 자신의 직속 신하만 목록에서 삭제할 수 있습니다.');if(demo)expelSubject(db,actor.id,id);else await networkSync.command({type:'subject-expel',targetId:id});}
   else if(p.inviterId!==actor.id)throw Error('자신의 신하가 아닙니다.');
-  closeModal();render();toast(`${p.name}를 신하 목록에서 내보냈습니다. 천하지도의 인연은 유지됩니다.`);
+  closeModal();render();toast(`${p.name} 신하를 목록에서 내보냈습니다. 천하지도의 인연은 유지됩니다.`);
  }catch(e){const error=$('#subject-expel-error');if(error)error.textContent=e.message;else toast(e.message);}
  finally{subjectExpelBusy=false;const button=$('#subject-expel-submit');if(button){button.disabled=false;button.textContent='목록에서 삭제하기';}}
 }
