@@ -3,15 +3,15 @@ import {BIRTH_REGIONS} from './birth-locations.mjs';
 import {birthTimeFields,birthTimeValue} from './birth-time.mjs';
 import {avatarFrame} from './avatar-frame.mjs';
 import {analyzeBirth,compatibility,compatibilityReport,sajuReading,validChart} from './saju.mjs';
-import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,expelSubject,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs?v=20261016-adaptive-spacing';
-import {validateWorld,makeBackup,makeRecoveryLink,readRecovery} from './recovery.mjs?v=20261016-adaptive-spacing';
-import {radialLayout,MAP_NODE_METRICS} from './map-layout.mjs?v=20261016-adaptive-spacing';
+import {TYPES,AXES,RANKS,THRESHOLDS,newWorld,addPerson,subjects,independent,bowRank,rank,royalGranted,bow,grant,border,kingLabel,makeDemo,characterType,officeFor,royalCharacterName,characterImage,destinyDescription,applyDestiny,loyalSubjects,appointLoyal,dismissLoyal,household,isDependent,sovereign,chooseStay,becomeKing,expelSubject,FRAMES,DECOR,royalStyle,prestige,royalShop,royalNudge,acknowledgeNudge,assignHousehold,HOUSE_OFFICES,networkCount,networkLevelCount,setBirth} from './model.mjs?v=20261016-compact-seats';
+import {validateWorld,makeBackup,makeRecoveryLink,readRecovery} from './recovery.mjs?v=20261016-compact-seats';
+import {radialLayout,MAP_NODE_METRICS} from './map-layout.mjs?v=20261016-compact-seats';
 import {mountMap} from './map-controls.mjs?v=20261015-readable-mobile-v2';
 import {createSync} from './sync.mjs';
 import {createNetworkSync} from './network-sync.mjs?v=20261015-map-refresh';
 import {createBrowserSession,SESSION_KEY} from './browser-session.mjs';
-import {tutorialRole,tutorialSteps} from './tutorial.mjs?v=20261016-adaptive-spacing';
-import {createRoyalLifeUI} from './royal-life-ui.mjs?v=20261016-adaptive-spacing';
+import {tutorialRole,tutorialSteps} from './tutorial.mjs?v=20261016-compact-seats';
+import {createRoyalLifeUI} from './royal-life-ui.mjs?v=20261016-compact-seats';
 const $=s=>document.querySelector(s), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const KEY='naegawang.world.v1',PREVIOUS_KEY='naegawang.before-restore.v1';
 const appBase=()=>new URL('./',location.href).href;
@@ -77,7 +77,7 @@ async function runNetworkAction(a,b,cmd){
 }
 const royalLife=createRoyalLifeUI({getDB:()=>db,me,esc,icon,openModal,save,render,toast,go,submitCouncil:submitCustomCouncil});
 async function submitCustomCouncil(agenda){
- if(demo||!networkSync.active){const {openCouncil}=await import('./royal-life.mjs?v=20261016-adaptive-spacing');const c=openCouncil(db,me().id,agenda);save();render();return c.id;}
+ if(demo||!networkSync.active){const {openCouncil}=await import('./royal-life.mjs?v=20261016-compact-seats');const c=openCouncil(db,me().id,agenda);save();render();return c.id;}
  if(!browserSession.matches())throw Error('다른 탭에서 접속 정보가 바뀌었습니다. 새로고침해주세요.');
  // Drain a lost-response retry before deciding whether a second survey is needed.
  await networkSync.refresh({force:true});
